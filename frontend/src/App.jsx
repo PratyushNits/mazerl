@@ -22,7 +22,7 @@ import UploadScreen    from "./components/UploadScreen.jsx";
 import RaceScreen      from "./components/RaceScreen.jsx";
 import ResultScreen    from "./components/ResultScreen.jsx";
 
-const API = "";
+const API = "https://mazerl1.onrender.com";
 
 export default function App() {
   const [screen,     setScreen]     = useState("landing");
