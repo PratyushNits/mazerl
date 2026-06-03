@@ -1,0 +1,42 @@
+# ── Secrets & environment ──────────────────────────────────────────
+.env
+.env.*
+docker-compose.yml
+
+# ── Python ─────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+env/
+
+# ── Node / Frontend ─────────────────────────────────────────────────
+node_modules/
+frontend/dist/
+frontend/.cache/
+npm-debug.log*
+yarn-error.log*
+
+# ── Docker ──────────────────────────────────────────────────────────
+*.log
+
+# ── Database ─────────────────────────────────────────────────────────
+*.sqlite3
+postgres_data/
+
+# ── OS files ─────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── IDE / Editor ─────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo

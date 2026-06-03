@@ -1,0 +1,180 @@
+/* ── Reset & base ──────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #050810;
+  --bg2:       #090e1a;
+  --bg3:       #0d1525;
+  --surface:   #111827;
+  --border:    #1a2744;
+  --border2:   #263555;
+
+  --mint:      #0fffa0;
+  --mint-dim:  #0a9960;
+  --mint-glow: rgba(15,255,160,0.25);
+
+  --cyan:      #00c8ff;
+  --cyan-glow: rgba(0,200,255,0.2);
+
+  --amber:     #ffd700;
+  --amber-dim: #b89b00;
+
+  --pink:      #ff3d7f;
+  --pink-dim:  #991f4a;
+
+  --text:      #d4e0ff;
+  --text-dim:  #6b7fa8;
+  --text-muted:#3a4d70;
+
+  --font-head: 'Orbitron', monospace;
+  --font-mono: 'Share Tech Mono', 'Courier New', monospace;
+
+  --radius:    6px;
+  --radius-lg: 12px;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar             { width: 6px; height: 6px; }
+::-webkit-scrollbar-track       { background: var(--bg2); }
+::-webkit-scrollbar-thumb       { background: var(--border2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--mint-dim); }
+
+/* ── Scanline overlay ─────────────────────────────────────────────────────── */
+body::after {
+  content: '';
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0,0,0,0.06) 3px,
+    rgba(0,0,0,0.06) 4px
+  );
+  z-index: 9999;
+}
+
+/* ── Utilities ────────────────────────────────────────────────────────────── */
+.font-head   { font-family: var(--font-head); }
+.font-mono   { font-family: var(--font-mono); }
+.text-mint   { color: var(--mint); }
+.text-cyan   { color: var(--cyan); }
+.text-amber  { color: var(--amber); }
+.text-pink   { color: var(--pink); }
+.text-dim    { color: var(--text-dim); }
+.text-muted  { color: var(--text-muted); }
+
+/* Neon text glow helpers */
+.glow-mint { text-shadow: 0 0 8px var(--mint), 0 0 24px var(--mint-glow); }
+.glow-cyan { text-shadow: 0 0 8px var(--cyan), 0 0 24px var(--cyan-glow); }
+
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.18s ease;
+  text-transform: uppercase;
+}
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-mint {
+  background: transparent;
+  border-color: var(--mint);
+  color: var(--mint);
+  box-shadow: 0 0 12px var(--mint-glow);
+}
+.btn-mint:hover:not(:disabled) {
+  background: var(--mint);
+  color: var(--bg);
+  box-shadow: 0 0 20px var(--mint), 0 0 40px var(--mint-glow);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--border2);
+  color: var(--text-dim);
+}
+.btn-ghost:hover:not(:disabled) {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.btn-pink {
+  background: transparent;
+  border-color: var(--pink);
+  color: var(--pink);
+}
+.btn-pink:hover:not(:disabled) {
+  background: var(--pink);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(255,61,127,0.4);
+}
+
+/* ── Card ─────────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+/* ── Progress bar ─────────────────────────────────────────────────────────── */
+.prog-track {
+  width: 100%;
+  height: 4px;
+  background: var(--bg3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--mint-dim), var(--mint));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 8px var(--mint-glow);
+}
+
+/* ── Fade-in animation ────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.4s ease both; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+.pulse { animation: pulse 1.6s ease infinite; }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spin { animation: spin 0.9s linear infinite; display: inline-block; }
+
+/* ── Tier badge ───────────────────────────────────────────────────────────── */
+.tier-easy   { color: var(--mint);  border-color: var(--mint-dim);  }
+.tier-medium { color: var(--amber); border-color: var(--amber-dim); }
+.tier-hard   { color: var(--pink);  border-color: var(--pink-dim);  }

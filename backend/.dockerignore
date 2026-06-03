@@ -1,0 +1,13 @@
+# backend/.dockerignore
+# These files/folders are NOT copied into the Docker image
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.example
+*.log
+.git
+.gitignore
+users.json

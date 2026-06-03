@@ -1,0 +1,78 @@
+# docker-compose.example.yml
+# Copy this file to docker-compose.yml and fill in your real values.
+# NEVER commit docker-compose.yml to Git — it contains passwords.
+
+services:
+
+  db:
+    image: postgres:16-alpine
+    container_name: mazerl_db
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB:       mazerl
+      POSTGRES_USER:     mazerl_user
+      POSTGRES_PASSWORD: your_db_password_here
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    expose:
+      - "5432"
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mazerl_user -d mazerl"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+
+  backend:
+    build:
+      context: ./backend
+    container_name: mazerl_backend
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    environment:
+      # Use %40 instead of @ in the password (URL encoding)
+      # Example: if password is Pass@123 → write Pass%40123
+      DATABASE_URL:    postgresql+asyncpg://mazerl_user:your_db_password_here@db:5432/mazerl
+      MAZERL_SECRET:   your_jwt_secret_here
+      SMTP_HOST:       smtp.gmail.com
+      SMTP_PORT:       587
+      SMTP_USER:       your_email@gmail.com
+      SMTP_PASSWORD:   your_gmail_app_password_here
+      ALLOWED_ORIGINS: "*"
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    volumes:
+      - ./backend/assets:/app/assets
+
+    command: >
+      sh -c "sleep 3 && uvicorn main:app --host 0.0.0.0 --port 8000 --workers 2"
+
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: mazerl_frontend
+    restart: unless-stopped
+
+    ports:
+      - "80:80"
+
+    depends_on:
+      - backend
+
+
+volumes:
+  postgres_data:
