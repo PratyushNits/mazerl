@@ -13,7 +13,7 @@
 
 import { useState, useEffect } from "react";
 
-const API = "https://mazerl1.onrender.com";
+const API = "https://mazerl.onrender.com";
 
 const TABS = [
   { id: "login",    label: "LOGIN"          },

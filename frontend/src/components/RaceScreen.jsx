@@ -55,7 +55,7 @@ export default function RaceScreen({ api, mazeData, onComplete }) {
 
     const wsBase = api
       ? api.replace(/^http/, "ws")
-      : `ws://${window.location.host}`;
+      : `${window.location.protocol === "https:" ? "wss" : "ws"}://${window.location.host}`;
     const ws = new WebSocket(`${wsBase}/race/stream/${race_id}`);
     wsRef.current = ws;
     let dead = false;
