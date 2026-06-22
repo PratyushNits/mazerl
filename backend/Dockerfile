@@ -41,3 +41,4 @@ EXPOSE 8000
 # --host 0.0.0.0  → accept connections from outside the container
 # --port 8000     → listen on port 8000
 # --workers 2     → 2 worker processes (good for small VPS)
+CMD uvicorn main:app --host 0.0.0.0 --port $PORT --workers 2
