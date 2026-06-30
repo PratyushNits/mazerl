@@ -118,7 +118,7 @@ function MazeTile({ maze, accent, glow, hovered, onHover, onSelect }) {
         position: "relative",
       }}>
         <img
-          src={`https://mazerl.onrender.com${maze.thumbnail}`}
+          src={`${import.meta.env.VITE_API_URL || "https://mazerl-production.up.railway.app"}${maze.thumbnail}`}
           alt={maze.name}
           style={{
             width: "100%",

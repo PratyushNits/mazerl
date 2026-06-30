@@ -19,7 +19,7 @@ const TIER_META = {
   hard:   { label: "HARD",   color: "var(--pink)",  dim: "var(--pink-dim)",  rgb: "255,61,127",  glow: "rgba(255,61,127,0.15)"  },
 };
 
-const API = "";
+const API = "https://mazerl-production.up.railway.app";
 
 export default function LeaderboardPage({ onBack }) {
   const [tier,    setTier]    = useState("easy");
