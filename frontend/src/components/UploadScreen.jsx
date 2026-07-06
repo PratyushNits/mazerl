@@ -36,7 +36,7 @@ export default function UploadScreen({ api, onReady }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to start race");
-      onReady(data);
+      onReady({ ...data, maze_path: filePath, tier });
     } catch (e) {
       setError(e.message);
       setStarting(false);

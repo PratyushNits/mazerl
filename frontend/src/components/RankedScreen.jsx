@@ -37,7 +37,7 @@ export default function RankedScreen({ api, user, token, onReady, onLogout }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to start race");
-      onReady({ ...data, ranked: true, tier, token });
+      onReady({ ...data, ranked: true, tier, token, maze_path: maze.file_path });
     } catch (e) {
       setError(e.message);
       setStarting(false);

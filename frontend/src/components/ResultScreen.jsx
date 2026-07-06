@@ -5,7 +5,7 @@
  *  - Winner banner (Player / Agent / Draw)
  *  - Side-by-side player vs agent stats
  *  - Difficulty adjustment (+20% / -50% agent speed)
- *  - RACE AGAIN button (calls POST /race/{id}/rematch then props.onRematch)
+ *  - RACE AGAIN button (starts a fresh race via POST /race/start)
  *  - NEW MAZE button
  */
 
@@ -20,10 +20,10 @@ export default function ResultScreen({ api, result, mazeData, onRematch, onNewMa
     metrics = {},
   } = result;
 
-  const { grid, start, end, race_id, ranked, tier, token } = mazeData;
+  const { grid, start, end, ranked, tier, token, maze_path } = mazeData;
 
   const [pendingFps,  setPendingFps]  = useState(agent_fps ?? 8);
-  const [adjusting,   setAdjusting]   = useState(false);
+  const [adjusting]   = useState(false); // kept for button disabled state compatibility
   const [rematching,  setRematching]  = useState(false);
   const [error,       setError]       = useState(null);
   const [scoreMsg,    setScoreMsg]    = useState(null);
@@ -51,35 +51,31 @@ export default function ResultScreen({ api, result, mazeData, onRematch, onNewMa
   }, []);
 
   // ── Difficulty buttons ────────────────────────────────────────────────────
-  async function handleDifficulty(direction) {
-    setAdjusting(true);
-    setError(null);
-    try {
-      const res  = await fetch(`${api}/race/${race_id}/difficulty`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ direction }),
-      });
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.error || "Failed");
-      setPendingFps(data.agent_fps);
-    } catch (e) {
-      setError(e.message);
-    } finally {
-      setAdjusting(false);
-    }
+  // Adjust fps locally — applied when the next race starts
+  function handleDifficulty(direction) {
+    setPendingFps(prev => {
+      if (direction === "harder") return Math.min(parseFloat((prev * 1.2).toFixed(2)), 60);
+      if (direction === "easier") return Math.max(parseFloat((prev * 0.5).toFixed(2)), 1);
+      return prev;
+    });
   }
 
   // ── Rematch ───────────────────────────────────────────────────────────────
+  // Start a completely fresh race with the same maze + adjusted fps
   async function handleRematch() {
     setRematching(true);
     setError(null);
     try {
-      const res  = await fetch(`${api}/race/${race_id}/rematch`, { method: "POST" });
+      const headers = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+      const res  = await fetch(`${api}/race/start`, {
+        method:  "POST",
+        headers,
+        body: JSON.stringify({ maze_path, tier: tier || "easy", agent_fps: pendingFps }),
+      });
       const data = await res.json();
-      if (!data.ok) throw new Error(data.error || "Rematch failed");
-      // Pass updated mazeData with current agent_fps back to parent
-      onRematch({ ...mazeData, agent_fps: data.agent_fps });
+      if (!res.ok) throw new Error(data.error || "Rematch failed");
+      onRematch({ ...mazeData, ...data, agent_fps: pendingFps });
     } catch (e) {
       setError(e.message);
       setRematching(false);
