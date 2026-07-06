@@ -54,8 +54,8 @@ export default function ResultScreen({ api, result, mazeData, onRematch, onNewMa
   // Adjust fps locally — applied when the next race starts
   function handleDifficulty(direction) {
     setPendingFps(prev => {
-      if (direction === "harder") return Math.min(parseFloat((prev * 1.2).toFixed(2)), 60);
-      if (direction === "easier") return Math.max(parseFloat((prev * 0.5).toFixed(2)), 1);
+      if (direction === "increase") return Math.min(parseFloat((prev * 1.2).toFixed(2)), 60);
+      if (direction === "decrease") return Math.max(parseFloat((prev * 0.5).toFixed(2)), 1);
       return prev;
     });
   }
@@ -131,7 +131,7 @@ export default function ResultScreen({ api, result, mazeData, onRematch, onNewMa
           grid={grid}
           start={start}
           end={end}
-          path={[]}       // player path not stored server-side (no replay)
+          path={[]}
           currentPos={player_solved && player_steps ? end : start}
           accentColor="var(--cyan)"
         />
