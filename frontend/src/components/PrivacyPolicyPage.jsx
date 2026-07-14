@@ -113,7 +113,7 @@ export default function PrivacyPolicyPage({ onBack }) {
           code sent on your explicit request. Codes expire after 30 minutes and
           can only be used once. We will never send unsolicited emails.
           <br /><br />
-          Emails are sent from <span style={{ color: "var(--mint)" }}>pkspratyush710@gmail.com</span>.
+          Emails are sent from <span style={{ color: "var(--mint)" }}>mail.mazex@gmail.com</span>.
         </PPSection>
 
         <PPSection title="5. DATA STORAGE & SECURITY">
@@ -135,7 +135,7 @@ export default function PrivacyPolicyPage({ onBack }) {
         <PPSection title="7. DATA RETENTION & DELETION">
           Your account and scores are retained as long as your account exists.
           To request deletion of your account and all associated data, contact us
-          at <span style={{ color: "var(--mint)" }}>pkspratyush710@gmail.com</span> with
+          at <span style={{ color: "var(--mint)" }}>mail.mazex@gmail.com</span> with
           the subject "Account Deletion Request". We will process requests within
           14 days.
         </PPSection>
@@ -161,7 +161,7 @@ export default function PrivacyPolicyPage({ onBack }) {
 
         <PPSection title="11. CONTACT">
           For any privacy-related questions or data requests, contact:<br /><br />
-          <span style={{ color: "var(--mint)" }}>pkspratyush710@gmail.com</span>
+          <span style={{ color: "var(--mint)" }}>mail.mazex@gmail.com</span>
         </PPSection>
 
         {/* Footer bar */}
